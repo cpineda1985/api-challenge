@@ -1,0 +1,38 @@
+# Dependencias
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Entornos
+.env
+
+# Salida de cobertura de tests
+coverage/
+
+# Archivos del editor
+.vscode/
+*.swp
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Archivos de build (en caso de usar a futuro)
+dist/
+build/
+
+# Otros
+*.tgz
+*.log
+*.md
+
+# Archivos ocultos del sistema operativo
+*.sublime-workspace

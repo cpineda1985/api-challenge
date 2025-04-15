@@ -1,0 +1,199 @@
+openapi: 3.0.3
+info:
+  title: Toolbox API Challenge
+  description: API que expone información procesada desde archivos CSV provenientes de un servicio externo.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Servidor local de desarrollo
+
+paths:
+  /files/data:
+    get:
+      summary: Obtener archivos procesados
+      description: Devuelve una lista de archivos con sus líneas válidas. Permite filtrar por nombre de archivo específico (`fileName`) y decidir si se incluyen líneas parcialmente válidas (`includeEmpty`). Ambos filtros son opcionales.
+      parameters:
+        - name: fileName
+          in: query
+          required: false
+          description: Nombre del archivo CSV a filtrar. Si no se especifica, se devuelven todos los archivos válidos.
+          schema:
+            type: string
+            example: test2.csv
+
+        - name: includeEmpty
+          in: query
+          required: false
+          description: Incluir líneas vacías o con campos parcialmente válidos (campos nulos). Si se omite, solo se devuelven líneas 100% válidas.
+          schema:
+            type: boolean
+            example: true
+
+      responses:
+        '200':
+          description: Datos obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    file:
+                      type: string
+                      example: test2.csv
+                    lines:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          text:
+                            type: string
+                            nullable: true
+                            example: HrOURzXOfQBNsmYFcKWvRnEhxNDUZr
+                          number:
+                            type: integer
+                            nullable: true
+                            example: 874512
+                          hex:
+                            type: string
+                            nullable: true
+                            example: 79d6ae2f40ae06db9cefe7ebf173664a
+              examples:
+                ejemploSimplificado:
+                  summary: Ejemplo de respuesta exitosa
+                  value:
+                    - file: test2.csv
+                      lines:
+                        - text: "HrOURzXOfQBNsmYFcKWvRnEhxNDUZr"
+                          number: 874512
+                          hex: "79d6ae2f40ae06db9cefe7ebf173664a"
+
+        '404':
+          description: Archivo no encontrado o sin líneas válidas (cuando `fileName` es provisto y no hay resultados)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: SYS-ERR
+                  message:
+                    type: string
+                    example: Not Found
+                  details:
+                    type: string
+                    nullable: true
+                    example: null
+                  status:
+                    type: integer
+                    example: 404
+
+        '500':
+          description: Error interno al procesar archivos o conectarse al API externo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: SYS-ERR
+                  message:
+                    type: string
+                    example: Internal Server Error
+                  details:
+                    type: string
+                    nullable: true
+                    example: Error en red o parseo
+                  status:
+                    type: integer
+                    example: 500
+
+  /files/list:
+    get:
+      summary: Obtener lista de archivos disponibles
+      description: Devuelve el listado de archivos proporcionado directamente por el API externo. Permite filtrar por nombre de archivo si se proporciona `fileName`.
+      parameters:
+        - name: fileName
+          in: query
+          required: false
+          description: Nombre del archivo CSV a buscar en la lista. Si se especifica y no existe, se responde con 404.
+          schema:
+            type: string
+            example: test3.csv
+      responses:
+        '200':
+          description: Lista de archivos obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  files:
+                    type: array
+                    items:
+                      type: string
+              examples:
+                listaCompleta:
+                  summary: Ejemplo de lista completa
+                  value:
+                    files:
+                      - test1.csv
+                      - test2.csv
+                      - test3.csv
+                      - test18.csv
+                      - test4.csv
+                      - test5.csv
+                      - test6.csv
+                      - test9.csv
+                      - test15.csv
+                resultadoFiltrado:
+                  summary: ejemplo filtrado
+                  value:
+                    files:
+                      - test3.csv
+
+        '404':
+          description: Archivo no encontrado en la lista
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: SYS-ERR
+                  message:
+                    type: string
+                    example: Not Found
+                  details:
+                    type: string
+                    nullable: true
+                    example: Archivo no encontrado
+                  status:
+                    type: integer
+                    example: 404
+
+        '500':
+          description: Error al obtener la lista desde el API externo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: SYS-ERR
+                  message:
+                    type: string
+                    example: Internal Server Error
+                  details:
+                    type: string
+                    nullable: true
+                    example: Error de red o token inválido
+                  status:
+                    type: integer
+                    example: 500
