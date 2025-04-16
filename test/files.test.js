@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+// indico que es mocha
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const app = require('../src/app') // Importa la instancia de Express

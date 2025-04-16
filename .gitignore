@@ -32,7 +32,7 @@ build/
 # Otros
 *.tgz
 *.log
-*.md
+#*.md
 
 # Archivos ocultos del sistema operativo
 *.sublime-workspace

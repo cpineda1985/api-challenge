@@ -1,7 +1,5 @@
 # TOOLBOX API CHALLENGE  
-**Autor:** Cesar Daniel Pineda
-
-Este proyecto consume un API externo, procesa información en formato CSV y expone endpoints REST que devuelven los datos procesados y opcionalmente filtrados.
+El proyecto consume un API externo, procesa información en formato CSV y expone endpoints REST que devuelven los datos procesados y opcionalmente filtrados.
 
 El desarrollo fue realizado utilizando **Node.js v14.17.6**. El código está estructurado de forma modular para facilitar su extensión, testeo y mantenimiento.
 
@@ -123,4 +121,10 @@ api-challenge/
 - Se utiliza ESLint con configuración StandardJS para evitar variables no usadas o mal definidas y poder limpiar el código. 
   - El archivo `.eslintrc.json` se incluyó para explicitar la configuración utilizada:
   - Esto garantiza que los archivos de prueba también se validen correctamente con `eslint` sin marcar como errores las funciones globales de Mocha (`describe`, `it`, etc.).
+
+  ## 👤 Autor
+
+Cesar Daniel Pineda  
+📧 cesardanielpineda@gmail.com  
+🔗 [Repositorio GitHub API](https://github.com/cpineda1985/api-challenge)
 
